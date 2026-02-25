@@ -1,14 +1,21 @@
-seed: 42
-
-data:
-  dir: data/raw
-  num_workers: 2
-
-train: 
-  epochs: 10
-  batch_size: 128
-  lr: 0.0005
-
-run:
-  name: exp2_low_lr_more_epochs
-  out_dir: runs
+service:
+  model:
+    format: "torchscript"
+    path: "data/models/model.ts.pt"
+  input:
+    channels: 3
+    height: 32
+    width: 32
+    encoding: "flat"
+  labels:
+    - airplane
+    - automobile
+    - bird
+    - cat
+    - deer
+    - dog
+    - frog
+    - horse
+    - ship
+    - truck
+    
