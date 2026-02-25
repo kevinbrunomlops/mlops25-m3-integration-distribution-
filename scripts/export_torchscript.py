@@ -33,5 +33,6 @@ def main():
     scripted.save(str(out_path))
     print(f"Export done: {out_path}")
 
-    if __name__ == "__main__":
-        main()
+
+if __name__ == "__main__":
+    main()

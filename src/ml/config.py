@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal, Any 
-import yaml 
+import yaml
 
 ModelFormat = Literal["torchscript", "onnx"]
 InputEncoding = Literal["flat", "nested"]
@@ -60,13 +60,13 @@ def load_config(params_path: str = "params.yaml") -> AppConfig:
     
     raw = yaml.safe_load(p.read_text(encoding="utf-8"))
     service = _require(raw, "service")
-    api = raw.get("api, {}")
+    api = raw.get("api") or {}
 
     model_raw = _require(service, "model")
     runtime_raw = service.get("runtime", {})
     input_raw = _require(service, "input")
     pre_raw = service.get("preprocess",{})
-    labels = service.get("labels", {})
+    labels = service.get("labels", [])
 
     model = ModelConfig(
         format=model_raw.get("format","torchscript"),
@@ -74,7 +74,7 @@ def load_config(params_path: str = "params.yaml") -> AppConfig:
     )
 
     runtime = RuntimeConfig(
-        deivce=runtime_raw.get("device", "mps"),
+        device=runtime_raw.get("device", "mps"),
         num_threads=int(runtime_raw.get("num_threads", 1)),
     )
 
@@ -90,11 +90,6 @@ def load_config(params_path: str = "params.yaml") -> AppConfig:
         normalize=bool(pre_raw.get("normalize", True)),
         mean=list(pre_raw.get("mean", [0.0, 0.0, 0.0])),
         std=list(pre_raw.get("std", [1.0, 1.0, 1.0])),
-    )
-
-    model = ModelConfig(
-        format=model_raw.get("format","torchscript"),
-        path=_require(model_raw, "path"),
     )
 
     svc = ServiceConfig(
