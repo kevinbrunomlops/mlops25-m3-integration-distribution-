@@ -12,7 +12,7 @@ class Predictor:
         torch.set_num_threads(cfg.service.runtime.num_threads)
 
         model_path = cfg.service.model.path
-        self.model = torch.jit.load(model_path, map_location="mps")
+        self.model = torch.jit.load(model_path, map_location="cpu")
         self.model.eval()
 
         self.c = cfg.service.input.channels

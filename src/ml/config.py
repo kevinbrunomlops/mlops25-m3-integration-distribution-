@@ -13,7 +13,7 @@ class ModelConfig:
     path: str
 @dataclass(frozen=True)
 class RuntimeConfig:
-    device: str = "mps"
+    device: str = "cpu"
     num_threads: int = 1
 
 @dataclass(frozen=True)
@@ -74,7 +74,7 @@ def load_config(params_path: str = "params.yaml") -> AppConfig:
     )
 
     runtime = RuntimeConfig(
-        device=runtime_raw.get("device", "mps"),
+        device=runtime_raw.get("device", "cpu"),
         num_threads=int(runtime_raw.get("num_threads", 1)),
     )
 

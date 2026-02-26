@@ -22,14 +22,19 @@ def main():
     num_classes = len(cfg.service.labels)
     model = SimpleCNN(num_classes=num_classes)
 
-    state = torch.load(weights_path, map_location="mps")
+    state = torch.load(weights_path, map_location="cpu")
+    state = {k: v.detach().cpu() for k, v in state.items()}
     model.load_state_dict(state)
     model.eval()
+    model.to("cpu")
 
     c, h, w = cfg.service.input.channels, cfg.service.input.height, cfg.service.input.width
-    example = torch.rand(1, c, h, w)
+    example = torch.rand(1, c, h, w, device="cpu")
 
     scripted = torch.jit.trace(model, example)
+    scripted = scripted.to("cpu")
+    p = next(scripted.parameters())
+    print("Scriptedt param device:", p.device)
     scripted.save(str(out_path))
     print(f"Export done: {out_path}")
 
