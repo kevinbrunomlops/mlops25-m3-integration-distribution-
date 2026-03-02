@@ -101,8 +101,10 @@ Open:
 ### Step 4 - Running with Docker
 Build the container:
 `docker build -t m3-api`
+
 Run container: 
 `docker run -p 8000:8000 m3-api`
+
 Access:
 `http://localhost:8000/docs`
 
