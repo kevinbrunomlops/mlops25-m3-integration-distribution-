@@ -88,6 +88,7 @@ Response format:
     "class_id": 3, 
     "label": "cat"
 }
+```
 
 ### Step 3 - Running locally (without Docker)
 Install dependencies:
