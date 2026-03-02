@@ -10,7 +10,7 @@ This project demonstrates a professional MLOps workflow where a trained PyTorch 
 The models performs image classification on 32x32 RGB images (CIFAR-10 format)
 
 ## Model Description
-The models is a convolutional Neural Network (CNN) orginally trained in K2 (previous lab). It classifies 32x32 RGB images into on of the CIFAR-10 classes. 
+The models is a Convolutional Neural Network (CNN) orginally trained in K2 (previous lab). It classifies 32x32 RGB images into on of the CIFAR-10 classes. 
 
 Input format: 
 - 3 channels (RGB)
