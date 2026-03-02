@@ -93,8 +93,10 @@ Response format:
 ### Step 3 - Running locally (without Docker)
 Install dependencies:
 `uv sync`
+
 run API:
 `uv run uvicorn src.app.api:app --host 0.0.0.0 --port 8000 --reload`
+
 Open:
 `http://localhost:8000/docs`
 
