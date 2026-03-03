@@ -1,4 +1,5 @@
 # MLOPS25 - M3: Integration & Distribution
+### Team Kevin & Sadia 
 ## Overview
 
 This project demonstrates a professional MLOps workflow where a trained PyTorch model is:
