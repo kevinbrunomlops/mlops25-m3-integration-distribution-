@@ -70,9 +70,10 @@ The model is loaded through a `Predictor`class:
 
 The FastAPI endpoint exposes the model through a REST API.
 
-`POST /predict``
+`POST /predict`
 
 The endpoint accepts an uploaded image file. 
+
 The API performs preprocessing before passing the data to the model. 
 1. The uploaded image is read from the request. 
 2. The image is converted to RGB.
@@ -100,27 +101,34 @@ The API returns the predicted class ID and label:
 
 ### Step 3 - Running locally (without Docker)
 Install dependencies:
+
 `uv sync`
 
 Run API:
+
 `uv run uvicorn src.app.api:app --host 0.0.0.0 --port 8000 --reload`
 
 Open the interactive API documentation:
+
 `http://localhost:8000/docs`
 
 ### Step 4 - Running with Docker
 Build the container:
+
 `docker build -t m3-api .`
 
-Run the container: 
+Run the container:
+
 `docker run -p 8000:8000 m3-api`
 
 Access the API documentation:
+
 `http://localhost:8000/docs`
 
 ## Testing the API
 The easiest way to test the model is through Swagger UI:
 1. Open:
+
 `http://localhost:8000/docs`
 2. Select the POST /predict endpoint.
 3. Click Try it out.
@@ -137,7 +145,7 @@ curl -X POST "http://localhost:8000/predict" \
     -H "Content-Type: multipart/form-data" \
     -f "file=@example.png"
 ```
-Replace `example.png`with any image file. 
+Replace `example.png` with any image file. 
 
 ## Architecture diagram
 ```
@@ -170,13 +178,15 @@ All uploaded images are therefore automatically resized to 32x32 before inferenc
 Predictions will be most meaningful when the uploaded image contains objects similar to CIFAR-10 classes. 
 
 ## Device handling (CPU vs MPS)
-The model was exported and force to CPU during inference to ensure:
+The model was exported and forced to CPU during inference to ensure:
 - Consistent Docker execution
 - No dependency on Apple MPS
 - No GPU assumptions in production
+
 All tensors are explicity moved to CPU during export and inference.
 
 This avoids device mismatch errors such as:
+
 `input(device='cpu') and weight(device='mps=0') must be on the same device`
 
 ## Git workflow & collaboration
