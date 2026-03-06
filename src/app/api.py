@@ -1,25 +1,28 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field 
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from src.ml.predict import Predictor
+
+import io 
+import numpy as np 
+from PIL import Image
 
 app = FastAPI(title="M3 Model API")
 
 predictor = Predictor("params.yaml")
 
-class PredictRequest(BaseModel):
-    x:list[float] = Field(
-        ..., 
-        description="Flat list of 3072 floats representing a 3x32x32 RGB image (C*H*W).",
-        examples=[[0.0] * 3072],
-    )
-
 @app.post("/predict")
-def predict(req: PredictRequest):
+async def predict(file: UploadFile = File(...)):
     try:
-        result = predictor.predict(req.x)
-        return {
-            "class_id": result["class_id"],
-            "label": result["label"]
-        }
+        image_bytes = await file.read()
+
+        img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        img = img.resize((32, 32))
+
+        arr = np.array(img).astype("float32") / 255.0
+        arr = arr.transpose(2, 0, 1) #HWC -> CHW
+        x = arr.reshape(-1).tolist() #3x32x32 = 3072
+
+        return predictor.predict(x)
+    
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
