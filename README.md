@@ -130,6 +130,7 @@ The easiest way to test the model is through Swagger UI:
 1. Open:
 
 `http://localhost:8000/docs`
+
 2. Select the POST /predict endpoint.
 3. Click Try it out.
 4. Upload an image file.
