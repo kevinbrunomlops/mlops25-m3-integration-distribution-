@@ -165,7 +165,7 @@ Prediction Response
 
 ## Note on image size 
 The model was trained on CIFAR-10 images (32x32 RGB).
-All uploaded images are therefore auomatically resized to 32x32 before inference. 
+All uploaded images are therefore automatically resized to 32x32 before inference. 
 
 Predictions will be most meaningful when the uploaded image contains objects similar to CIFAR-10 classes. 
 
